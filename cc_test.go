@@ -193,6 +193,41 @@ func benchConcAll() {
 	_ = conc.All()
 }
 
+func Benchmark_one_func_many_nils(b *testing.B) {
+	for range iter(b.N) {
+		benchOneFuncManyNils()
+	}
+}
+
+func benchOneFuncManyNils() {
+	_ = cc.All(
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		func() {},
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+		nil, nil, nil, nil, nil,
+	)
+}
+
 func eq(t testing.TB, exp, act interface{}) {
 	t.Helper()
 	if !r.DeepEqual(exp, act) {

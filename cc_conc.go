@@ -67,7 +67,7 @@ For 0 or 1 functions, this has practically no overhead. It simply calls the only
 function on the current goroutine and returns its result as-is.
 */
 func (self Conc) All() error {
-	switch self.len() {
+	switch self.size() {
 	case 0:
 		return nil
 
@@ -87,7 +87,7 @@ calling this method. Should be used ONLY if you want the error slice.
 Otherwise, use `cc.Conc.All`.
 */
 func (self Conc) RunAll() Errs {
-	switch self.len() {
+	switch self.size() {
 	case 0:
 		return nil
 
@@ -117,10 +117,13 @@ func (self Conc) runConc() Errs {
 	return errs
 }
 
-func (self Conc) len() (count int) {
+func (self Conc) size() (count int) {
 	for _, val := range self {
 		if val != nil {
 			count++
+			if count >= 2 {
+				return
+			}
 		}
 	}
 	return
