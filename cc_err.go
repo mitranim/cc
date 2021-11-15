@@ -2,6 +2,7 @@ package cc
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -134,6 +135,37 @@ func (self Errs) format() string {
 	}
 
 	return buf.String()
+}
+
+/*
+Treats an arbitrary non-`error` value as an `error`. Should be used for caught
+non-`error` panics. Should not be used to wrap `error`.
+*/
+type nonErr [1]interface{}
+
+// Implement `error`.
+func (self nonErr) Error() string {
+	if self[0] != nil {
+		return fmt.Sprint(self[0])
+	}
+	return ``
+}
+
+// Implement hidden interface in "errors".
+func (self nonErr) Unwrap() error {
+	err, _ := self[0].(error)
+	return err
+}
+
+func toErr(val interface{}) error {
+	if val == nil {
+		return nil
+	}
+	err, _ := val.(error)
+	if err != nil {
+		return err
+	}
+	return nonErr{val}
 }
 
 func isErrNil(err error) bool    { return err == nil }

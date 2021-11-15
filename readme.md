@@ -1,6 +1,6 @@
 ## Overview
 
-Short for "**C**on**C**urrent". Tiny Go tool for running multiple functions concurrently and collecting their results into an error slice. Dependency-free.
+Short for "**C**on**C**urrent". Go tool for running multiple functions concurrently and collecting their results into an error slice. Tiny and dependency-free.
 
 API docs: https://pkg.go.dev/github.com/mitranim/cc.
 

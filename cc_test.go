@@ -137,6 +137,28 @@ func TestConc(t *testing.T) {
 	})
 }
 
+func BenchmarkAll_one(b *testing.B) {
+	for range iter(b.N) {
+		benchAllOne()
+	}
+}
+
+func benchAllOne() {
+	_ = cc.All(func() { panic(testErr0) })
+}
+
+func BenchmarkConcAll_one(b *testing.B) {
+	for range iter(b.N) {
+		benchConcAllOne()
+	}
+}
+
+func benchConcAllOne() {
+	conc := make(cc.Conc, 0, 1)
+	conc.Add(func() { panic(testErr0) })
+	_ = conc.All()
+}
+
 func BenchmarkAll(b *testing.B) {
 	for range iter(b.N) {
 		benchAll()
@@ -144,7 +166,7 @@ func BenchmarkAll(b *testing.B) {
 }
 
 func benchAll() {
-	cc.All(
+	_ = cc.All(
 		func() {},
 		func() { panic(testErr0) },
 		func() {},
@@ -160,7 +182,7 @@ func BenchmarkConc_All(b *testing.B) {
 }
 
 func benchConcAll() {
-	conc := cc.Make(5)
+	conc := make(cc.Conc, 0, 5)
 
 	conc.Add(func() {})
 	conc.Add(func() { panic(testErr0) })
@@ -168,7 +190,7 @@ func benchConcAll() {
 	conc.Add(func() { panic(testErr1) })
 	conc.Add(func() {})
 
-	conc.All()
+	_ = conc.All()
 }
 
 func eq(t testing.TB, exp, act interface{}) {
