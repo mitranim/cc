@@ -150,9 +150,7 @@ func concRun(fun func(), wg *sync.WaitGroup, ptr *error) {
 	fun()
 }
 
-func rec(ptr *error) { *ptr = toErr(recover()) }
-
-// Borrowed from the standard	library.
+// Borrowed from the standard library.
 func noescape(src unsafe.Pointer) unsafe.Pointer {
 	out := uintptr(src)
 	// nolint:staticcheck

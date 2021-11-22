@@ -137,24 +137,11 @@ func (self Errs) format() string {
 	return buf.String()
 }
 
-/*
-Treats an arbitrary non-`error` value as an `error`. Should be used for caught
-non-`error` panics. Should not be used to wrap `error`.
-*/
-type nonErr [1]interface{}
-
-// Implement `error`.
-func (self nonErr) Error() string {
-	if self[0] != nil {
-		return fmt.Sprint(self[0])
+func rec(ptr *error) {
+	err := toErr(recover())
+	if err != nil {
+		*ptr = err
 	}
-	return ``
-}
-
-// Implement hidden interface in "errors".
-func (self nonErr) Unwrap() error {
-	err, _ := self[0].(error)
-	return err
 }
 
 func toErr(val interface{}) error {
@@ -166,6 +153,15 @@ func toErr(val interface{}) error {
 		return err
 	}
 	return nonErr{val}
+}
+
+type nonErr [1]interface{}
+
+func (self nonErr) Error() string {
+	if self[0] != nil {
+		return fmt.Sprint(self[0])
+	}
+	return ``
 }
 
 func isErrNil(err error) bool    { return err == nil }
