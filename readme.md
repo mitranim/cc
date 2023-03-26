@@ -1,6 +1,8 @@
+**Moved to https://github.com/mitranim/gg**. This repo is usable but frozen.
+
 ## Overview
 
-Short for "**C**on**C**urrent". Go tool for running multiple functions concurrently and collecting their results into an error slice. Tiny and dependency-free.
+Short for "**C**on**C**urrent". Go tool for running multiple functions concurrently, collecting their errors into an error slice. Tiny and dependency-free.
 
 API docs: https://pkg.go.dev/github.com/mitranim/cc.
 
